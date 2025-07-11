@@ -2,6 +2,7 @@
 import { useSignalState } from './useSignalState';
 import { useAntidelayManager } from './useAntidelayManager';
 import { useSaveTsManager } from './useSaveTsManager';
+import { CapacitorIntents } from 'capacitor-android-intents';
 
 export const useSignalTracker = () => {
   const {
@@ -60,15 +61,19 @@ export const useSignalTracker = () => {
       
       if ((window as any).Capacitor && (window as any).Capacitor.isNativePlatform()) {
         if ((window as any).Capacitor.getPlatform() === 'android') {
-          console.log('🔴 Android platform detected - attempting to send URL scheme');
-          console.log('🔴 URL scheme being sent: tasker://ringoff');
+          console.log('🔴 Android platform detected - attempting to send broadcast intent');
+          console.log('🔴 Broadcast intent action: com.tasker.RING_OFF');
           
-          // Try URL scheme approach for Tasker
-          window.location.href = 'tasker://ringoff';
-          console.log('🔴 URL scheme sent successfully');
+          // Send broadcast intent using capacitor-android-intents
+          await CapacitorIntents.sendBroadcastIntent({
+            action: 'com.tasker.RING_OFF',
+            value: {
+              source: 'signal-scribe-app',
+              timestamp: Date.now()
+            }
+          });
           
-          // Also log the broadcast intent name for Tasker configuration
-          console.log('🔴 Alternative: Configure Tasker to listen for broadcast intent: com.tasker.RING_OFF');
+          console.log('🔴 Broadcast intent sent successfully: com.tasker.RING_OFF');
         } else {
           console.log('🔴 Not Android platform');
         }
@@ -94,15 +99,19 @@ export const useSignalTracker = () => {
       
       if ((window as any).Capacitor && (window as any).Capacitor.isNativePlatform()) {
         if ((window as any).Capacitor.getPlatform() === 'android') {
-          console.log('📱 Android platform detected - attempting to send URL scheme');
-          console.log('📱 URL scheme being sent: tasker://screenoff');
+          console.log('📱 Android platform detected - attempting to send broadcast intent');
+          console.log('📱 Broadcast intent action: com.tasker.SCREEN_OFF');
           
-          // Try URL scheme approach for Tasker
-          window.location.href = 'tasker://screenoff';
-          console.log('📱 URL scheme sent successfully');
+          // Send broadcast intent using capacitor-android-intents
+          await CapacitorIntents.sendBroadcastIntent({
+            action: 'com.tasker.SCREEN_OFF',
+            value: {
+              source: 'signal-scribe-app',
+              timestamp: Date.now()
+            }
+          });
           
-          // Also log the broadcast intent name for Tasker configuration
-          console.log('📱 Alternative: Configure Tasker to listen for broadcast intent: com.tasker.SCREEN_OFF');
+          console.log('📱 Broadcast intent sent successfully: com.tasker.SCREEN_OFF');
         } else {
           console.log('📱 Not Android platform');
         }
