@@ -2,7 +2,7 @@
 import { useSignalState } from './useSignalState';
 import { useAntidelayManager } from './useAntidelayManager';
 import { useSaveTsManager } from './useSaveTsManager';
-import { IntentSender } from 'capacitor-intent-sender';
+import { CapacitorIntents } from 'capacitor-android-intents';
 
 export const useSignalTracker = () => {
   const {
@@ -64,10 +64,10 @@ export const useSignalTracker = () => {
           console.log('🔴 Android platform detected - attempting to send broadcast intent');
           console.log('🔴 Broadcast intent action: com.tasker.RING_OFF');
           
-          // Send broadcast intent using capacitor-intent-sender
-          await IntentSender.startActivity({
+          // Send broadcast intent using capacitor-android-intents
+          await CapacitorIntents.sendBroadcastIntent({
             action: 'com.tasker.RING_OFF',
-            extras: {
+            value: {
               source: 'signal-scribe-app',
               timestamp: Date.now()
             }
@@ -102,10 +102,10 @@ export const useSignalTracker = () => {
           console.log('📱 Android platform detected - attempting to send broadcast intent');
           console.log('📱 Broadcast intent action: com.tasker.SCREEN_OFF');
           
-          // Send broadcast intent using capacitor-intent-sender
-          await IntentSender.startActivity({
+          // Send broadcast intent using capacitor-android-intents
+          await CapacitorIntents.sendBroadcastIntent({
             action: 'com.tasker.SCREEN_OFF',
-            extras: {
+            value: {
               source: 'signal-scribe-app',
               timestamp: Date.now()
             }
